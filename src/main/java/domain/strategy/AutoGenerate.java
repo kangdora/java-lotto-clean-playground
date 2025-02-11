@@ -13,6 +13,10 @@ public class AutoGenerate implements LottoStrategy{
 
         Collections.shuffle(all_lottery);
 
-        return all_lottery.subList(0, LottoConstants.LOTTO_LENGTH);
+        List<Integer> autoNumbers = all_lottery.subList(0, LottoConstants.LOTTO_LENGTH);
+
+        Collections.sort(autoNumbers);
+
+        return autoNumbers;
     }
 }
