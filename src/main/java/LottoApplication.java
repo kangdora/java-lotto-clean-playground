@@ -1,6 +1,6 @@
 import controller.LottoTickets;
 
-public class Main {
+public class LottoApplication {
     public static void main(String[] args){
         LottoTickets lottoGame = new LottoTickets();
 

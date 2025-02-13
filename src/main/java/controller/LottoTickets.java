@@ -6,21 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LottoTickets {
-    private final List<List<Integer>> lottoList = new ArrayList<>();
+    private final List<List<Integer>> purchasedLottos = new ArrayList<>();
 
-    public void lotto(){
+    public void lotto() {
         int gameTime = view.InputView.getMoney();
-
         LottoGame autoGame = new LottoGame(new AutoGenerate());
 
-        for (int i=0;i < gameTime; i++){
+        for (int i = 0; i < gameTime; i++) {
             addLotto(autoGame.generateLotto(null));
         }
 
-        view.ResultView.printLotto(lottoList);
+        view.ResultView.printUserLotto(purchasedLottos);
+        List<Integer> winningNumbers = view.InputView.getLottoList();
+
+        view.ResultView.printStatistics(autoGame.calculateResults(purchasedLottos, winningNumbers));
     }
 
-    private void addLotto(List<Integer> lotto){
-        this.lottoList.add(lotto);
+    private void addLotto(List<Integer> lotto) {
+        this.purchasedLottos.add(lotto);
     }
 }
