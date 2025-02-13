@@ -1,27 +1,24 @@
 package view;
 
+import domain.Lotto;
+
 import java.util.List;
-import java.util.Map;
 
 public class ResultView {
-    // TODO: 구매 로또
-    public static void printUserLotto(List<List<Integer>> AllLotto) {
+    public static void printUserLotto(List<Lotto> AllLotto) {
         System.out.println("\n" + AllLotto.size() + "개를 구매했습니다.");
-        for (List<Integer> lotto : AllLotto) {
-            System.out.println(lotto);
+        for (Lotto lotto : AllLotto) {
+            System.out.println(lotto.getLottoList());
         }
     }
 
-    // TODO: 당첨 통계
-    public static void printStatistics(Map<Integer, Integer> rankResults) {
+    public static void printStatistics(List<List<Integer>> rankResults, Double prizeMoneyRate) {
         System.out.println("\n당첨 통계\n---------");
 
-        Long prizeMoney = 0L;
+        rankResults.forEach(result ->
+                System.out.printf("%d개 일치 (%d원)- %d개\n", result.get(0), result.get(1), result.get(2))
+        );
 
-        for (int matchCount : domain.LottoConstants.PRIZE_MAP.keySet()) {
-            int count = rankResults.getOrDefault(matchCount, 0);
-            int prize = domain.LottoConstants.PRIZE_MAP.get(matchCount);
-            System.out.println(matchCount + "개 일치 (" + prize + "원) - " + count + "개");
-        }
+        System.out.printf("총 수익률은 %.2f입니다.\n", prizeMoneyRate);
     }
 }
