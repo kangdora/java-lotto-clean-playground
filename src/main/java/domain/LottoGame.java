@@ -16,8 +16,7 @@ public class LottoGame {
     }
 
     public Lotto generateLotto(List<Integer> manualNumbers) {
-        List<Integer> numbers = strategy.generateLotto(manualNumbers);
-        return new Lotto(numbers);
+        return strategy.generateLotto(manualNumbers);
     }
 
     public Map<LottoRank, Integer> calculateResults(Lotto winningLotto, int bonusNumber) {
@@ -51,7 +50,6 @@ public class LottoGame {
             rankResults.put(rank, 0);
         }
     }
-
 
     public void addLotto(Lotto lotto) {
         purchasedLottoes.add(lotto);

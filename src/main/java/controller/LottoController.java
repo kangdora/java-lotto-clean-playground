@@ -3,6 +3,7 @@ package controller;
 import domain.Lotto;
 import domain.LottoRank;
 import domain.strategy.AutoGenerate;
+import domain.strategy.ManualGenerate;
 import service.LottoService;
 
 import java.util.List;
@@ -16,16 +17,20 @@ public class LottoController {
     }
 
     public void run() {
-        lottoService.setStrategy(new AutoGenerate());
+        lottoService.setStrategy(new ManualGenerate());
 
         int gameTotalCount = view.InputView.getMoney();
+        int manualLottoCount = view.InputView.getManualNumberCount();
+        List<Lotto> manualLottoes = view.InputView.getManualLottoes(manualLottoCount);
 
-        for (int count = 0; count < gameTotalCount; count++) {
-            lottoService.buyLotto(null);
-        }
+        lottoService.buyManualLottoes(manualLottoCount);
+
+        lottoService.setStrategy(new AutoGenerate());
+
+        lottoService.buyAutoLottoes();
 
         List<Lotto> purchasedLottoes = lottoService.getPurchasedLottoes();
-        view.ResultView.printUserLotto(purchasedLottoes);
+        view.ResultView.printUserLotto(purchasedLottoes, manualLottoCount);
 
         Lotto winningLotto = view.InputView.getWinningList();
         int bonusNumber = view.InputView.getBonusNumber();

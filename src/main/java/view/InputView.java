@@ -12,22 +12,38 @@ public class InputView {
 
     public static int getMoney() {
         System.out.println("구입 금액을 입력해주세요.");
+        int money = sc.nextInt();
+        sc.nextLine();
         // ADD: 1000원 보다 적을때, 오버플로우 감지, 000으로 안끝나는 경우.
-        return sc.nextInt() / LottoConstants.LOTTO_PRICE;
+        return money / LottoConstants.LOTTO_PRICE;
     }
 
     public static int getManualNumberCount() {
-        sc.nextLine();
         System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
-        return sc.nextInt();
+        int money = sc.nextInt();
+        sc.nextLine();
+
+        return money;
     }
 
-    // TODO: 수동 구매 번호
+    public static List<Lotto> getManualLottoes(int purchasedMaunalCount) {
+        List<Lotto> manualLottoes = new ArrayList<>();
 
+        System.out.println("수동으로 구매할 번호를 입력해 주세요.");
+
+        for (int count = 0; count < purchasedMaunalCount; count++) {
+            manualLottoes.add(getLottoLine());
+        }
+
+        return manualLottoes;
+    }
 
     public static Lotto getWinningList() {
-        sc.nextLine();
         System.out.println("\n지난 주 당첨 번호를 입력해 주세요.");
+        return getLottoLine();
+    }
+
+    private static Lotto getLottoLine() {
         String input = sc.nextLine();
         String[] tokens = input.split("\\s*,\\s*");
 
@@ -36,6 +52,7 @@ public class InputView {
         for (String token : tokens) {
             lottoList.add(Integer.parseInt(token.trim()));
         }
+
         return new Lotto(lottoList);
     }
 

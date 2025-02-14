@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ResultView {
-    public static void printUserLotto(List<Lotto> AllLotto) {
+    public static void printUserLotto(List<Lotto> AllLotto, int manualLottoCount) {
         System.out.println("\n" + AllLotto.size() + "개를 구매했습니다.");
         for (Lotto lotto : AllLotto) {
             System.out.println(lotto.numbers());
