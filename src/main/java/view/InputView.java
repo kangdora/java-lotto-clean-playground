@@ -1,5 +1,6 @@
 package view;
 
+import domain.Lotto;
 import domain.LottoConstants;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class InputView {
     // TODO: 수동 구매 번호
 
 
-    public static List<Integer> getWinningList() {
+    public static Lotto getWinningList() {
         sc.nextLine();
         System.out.println("\n지난 주 당첨 번호를 입력해 주세요.");
         String input = sc.nextLine();
@@ -35,7 +36,7 @@ public class InputView {
         for (String token : tokens) {
             lottoList.add(Integer.parseInt(token.trim()));
         }
-        return lottoList;
+        return new Lotto(lottoList);
     }
 
     public static int getBonusNumber() {

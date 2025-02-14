@@ -32,10 +32,10 @@ public class LottoService {
         return lottoGame.calculatePrizeRate();
     }
 
-    public List<List<Integer>> getResults(List<Integer> winningNumbers) {
+    public List<List<Integer>> getResults(Lotto winningLotto) {
         List<List<Integer>> results = new ArrayList<>();
 
-        Map<Integer, Integer> resultsMap = lottoGame.calculateResults(winningNumbers);
+        Map<Integer, Integer> resultsMap = lottoGame.calculateResults(winningLotto);
 
         for (int rank = LottoConstants.MAX_GRADE; rank > 0; rank--) {
             results.add(getResult(resultsMap, rank));

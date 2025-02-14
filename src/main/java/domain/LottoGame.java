@@ -17,21 +17,34 @@ public class LottoGame {
         this.strategy = strategy;
     }
 
+    // TODO: 로또 객체로 바꾸기
     public Lotto generateLotto(List<Integer> manualNumbers) {
         List<Integer> numbers = strategy.generateLotto(manualNumbers);
         return new Lotto(numbers);
     }
 
-    public Map<Integer, Integer> calculateResults(List<Integer> winningNumbers) {
+    public Map<Integer, Integer> calculateResults(Lotto winningLotto) {
 
         for (Lotto purchasedLotto : purchasedLottoes) {
-            int matchCount = purchasedLotto.countMatchingnumber(winningNumbers);
+            int matchCount = countMatchingnumber(purchasedLotto, winningLotto);
             // boolean hasBonus = purchasedLotto.haveBonusNumber(purchasedLotto, bonusNumber);
             int rank = LottoRank.getMatchedRankByMatchCount(matchCount).getRank();
             updateResult(rankResults, rank);
         }
 
         return rankResults;
+    }
+
+    private int countMatchingnumber(Lotto purchasedLotto, Lotto winningLotto) {
+        return Long.valueOf(purchasedLotto.numbers()
+                .stream()
+                .filter(winningLotto.numbers()::contains)
+                .count())
+                .intValue();
+    }
+
+    private boolean haveBonusNumber(Lotto purchasedLotto, int bonusNumber) {
+        return purchasedLotto.numbers().contains(bonusNumber);
     }
 
     private Map<Integer, Integer> initializeMap() {
@@ -70,4 +83,6 @@ public class LottoGame {
 
         return (double) totalPrize / totalCost;
     }
+
+
 }
