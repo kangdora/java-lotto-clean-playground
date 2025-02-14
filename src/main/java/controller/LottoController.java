@@ -1,10 +1,12 @@
 package controller;
 
 import domain.Lotto;
+import domain.LottoRank;
 import domain.strategy.AutoGenerate;
 import service.LottoService;
 
 import java.util.List;
+import java.util.Map;
 
 public class LottoController {
     private final LottoService lottoService;
@@ -26,7 +28,9 @@ public class LottoController {
         view.ResultView.printUserLotto(purchasedLottoes);
 
         Lotto winningLotto = view.InputView.getWinningList();
-        List<List<Integer>> lottoResults = lottoService.getResults(winningLotto);
+        int bonusNumber = view.InputView.getBonusNumber();
+
+        Map<LottoRank, Integer> lottoResults = lottoService.getResults(winningLotto, bonusNumber);
 
         view.ResultView.printStatistics(lottoResults, lottoService.getPrizeRate());
     }

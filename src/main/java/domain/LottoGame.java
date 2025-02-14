@@ -2,40 +2,40 @@ package domain;
 
 import domain.strategy.LottoStrategy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LottoGame {
     private final List<Lotto> purchasedLottoes = new ArrayList<>();
-    private final Map<Integer, Integer> rankResults = initializeMap();
+    private final Map<LottoRank, Integer> rankResults = new HashMap<>();
 
     private final LottoStrategy strategy;
 
     public LottoGame(LottoStrategy strategy) {
         this.strategy = strategy;
+        initializeRankResults();
     }
 
-    // TODO: 로또 객체로 바꾸기
     public Lotto generateLotto(List<Integer> manualNumbers) {
         List<Integer> numbers = strategy.generateLotto(manualNumbers);
         return new Lotto(numbers);
     }
 
-    public Map<Integer, Integer> calculateResults(Lotto winningLotto) {
-
+    public Map<LottoRank, Integer> calculateResults(Lotto winningLotto, int bonusNumber) {
         for (Lotto purchasedLotto : purchasedLottoes) {
-            int matchCount = countMatchingnumber(purchasedLotto, winningLotto);
-            // boolean hasBonus = purchasedLotto.haveBonusNumber(purchasedLotto, bonusNumber);
-            int rank = LottoRank.getMatchedRankByMatchCount(matchCount).getRank();
-            updateResult(rankResults, rank);
+            LottoRank rank = determineLottoRank(purchasedLotto, winningLotto, bonusNumber);
+            rankResults.put(rank, rankResults.getOrDefault(rank, 0) + 1);
         }
 
         return rankResults;
     }
 
-    private int countMatchingnumber(Lotto purchasedLotto, Lotto winningLotto) {
+    private LottoRank determineLottoRank(Lotto purchasedLotto, Lotto winningLotto, int bonusNumber) {
+        int matchCount = countMatchingNumber(purchasedLotto, winningLotto);
+        boolean hasBonus = purchasedLotto.numbers().contains(bonusNumber);
+        return LottoRank.getMatchedRankByMatchCount(matchCount, hasBonus);
+    }
+
+    private int countMatchingNumber(Lotto purchasedLotto, Lotto winningLotto) {
         return Long.valueOf(purchasedLotto.numbers()
                 .stream()
                 .filter(winningLotto.numbers()::contains)
@@ -43,24 +43,15 @@ public class LottoGame {
                 .intValue();
     }
 
-    private boolean haveBonusNumber(Lotto purchasedLotto, int bonusNumber) {
-        return purchasedLotto.numbers().contains(bonusNumber);
-    }
+    private void initializeRankResults() {
+        List<LottoRank> ranks = Arrays.asList(LottoRank.values());
+        Collections.reverse(ranks);
 
-    private Map<Integer, Integer> initializeMap() {
-        Map<Integer, Integer> initializedMap = new HashMap<>();
-        initializedMap.put(1, 0);
-        initializedMap.put(2, 0);
-        initializedMap.put(3, 0);
-        initializedMap.put(4, 0);
-        return initializedMap;
-    }
-
-    private void updateResult(Map<Integer, Integer> rankResults, int rank) {
-        if (rank > 0) {
-            rankResults.put(rank, rankResults.getOrDefault(rank, 0) + 1);
+        for (LottoRank rank : ranks) {
+            rankResults.put(rank, 0);
         }
     }
+
 
     public void addLotto(Lotto lotto) {
         purchasedLottoes.add(lotto);
@@ -73,16 +64,15 @@ public class LottoGame {
     public Double calculatePrizeRate() {
         long totalPrize = 0L;
 
-        for (Map.Entry<Integer, Integer> entry : rankResults.entrySet()) {
-            int rank = entry.getKey();
+        for (Map.Entry<LottoRank, Integer> entry : rankResults.entrySet()) {
+            LottoRank rank = entry.getKey();
             int count = entry.getValue();
 
-            totalPrize += (long) LottoRank.getPrizeMoneyByRank(rank) * count;
+            totalPrize += (long) rank.getPrizeMoney() * count;
         }
+
         int totalCost = purchasedLottoes.size() * LottoConstants.LOTTO_PRICE;
 
         return (double) totalPrize / totalCost;
     }
-
-
 }
