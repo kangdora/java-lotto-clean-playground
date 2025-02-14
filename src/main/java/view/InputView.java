@@ -40,8 +40,7 @@ public class InputView {
     }
 
     public static int getBonusNumber() {
-        sc.nextLine();
-        System.out.println("보너스 볼을 입력해 주세요.");
+        System.out.println("\n보너스 볼을 입력해 주세요.");
         // ADD: 검증 로직(1~45인지)
         return sc.nextInt();
     }
