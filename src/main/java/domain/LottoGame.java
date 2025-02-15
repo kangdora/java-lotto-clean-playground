@@ -1,5 +1,6 @@
 package domain;
 
+import domain.strategy.AutoGenerate;
 import domain.strategy.LottoStrategy;
 
 import java.util.*;
@@ -15,8 +16,13 @@ public class LottoGame {
         initializeRankResults();
     }
 
-    public Lotto generateLotto(List<Integer> manualNumbers) {
-        return strategy.generateLotto(manualNumbers);
+    public void buyManualLotto(List<Lotto> lottoes) {
+        purchasedLottoes.addAll(lottoes);
+    }
+
+    public void buyAutoLotto() {
+        LottoStrategy strategy = new AutoGenerate();
+        purchasedLottoes.add(strategy.generateLotto(null));
     }
 
     public Map<LottoRank, Integer> calculateResults(Lotto winningLotto, int bonusNumber) {
@@ -24,7 +30,6 @@ public class LottoGame {
             LottoRank rank = determineLottoRank(purchasedLotto, winningLotto, bonusNumber);
             rankResults.put(rank, rankResults.getOrDefault(rank, 0) + 1);
         }
-
         return rankResults;
     }
 

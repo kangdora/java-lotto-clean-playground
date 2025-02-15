@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class LottoController {
+    /*
+    컨트롤러는 무슨 역할을 해야하는가?
+    InputView에서 제공해주는 값들을 받고 서비스로 넘겨준 후 서비스에서 ResultvView로 넘기면 된다
+     */
     private final LottoService lottoService;
 
     public LottoController() {
@@ -35,7 +39,7 @@ public class LottoController {
         Lotto winningLotto = view.InputView.getWinningList();
         int bonusNumber = view.InputView.getBonusNumber();
 
-        Map<LottoRank, Integer> lottoResults = lottoService.getResults(winningLotto, bonusNumber);
+        List<List<Integer>> lottoResults = lottoService.getResults(winningLotto, bonusNumber);
 
         view.ResultView.printStatistics(lottoResults, lottoService.getPrizeRate());
     }

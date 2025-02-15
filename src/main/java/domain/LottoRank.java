@@ -26,11 +26,11 @@ public enum LottoRank {
         return matchCount;
     }
 
-    public int getRank(){
+    public int getRank() {
         return rank;
     }
 
-    public int getPrizeMoney(){
+    public int getPrizeMoney() {
         return prizeMoney;
     }
 
@@ -38,7 +38,14 @@ public enum LottoRank {
         return hasBonus;
     }
 
-    public static int getPrizeMoneyByRank(int userRank){
+    public int getHasValue() {
+        if (hasBonus) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int getPrizeMoneyByRank(int userRank) {
         return Arrays.stream(LottoRank.values())
                 .filter(rank -> rank.rank == userRank)
                 .findFirst()
