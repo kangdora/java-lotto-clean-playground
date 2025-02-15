@@ -25,6 +25,10 @@ public class LottoGame {
             lottoes.add(strategy.generateLotto(null));
         }
 
+        if (lottoes.isEmpty()) {
+            throw new IllegalStateException("생성된 자동 로또가 없습니다.");
+        }
+
         purchasedLottoes.addAll(lottoes);
     }
 

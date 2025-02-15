@@ -1,7 +1,5 @@
 package view;
 
-import domain.LottoConstants;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,11 +12,11 @@ public class InputView {
         int money = sc.nextInt();
         sc.nextLine();
         // ADD: 1000원 보다 적을때, 오버플로우 감지, 000으로 안끝나는 경우.
-        return money / LottoConstants.LOTTO_PRICE;
+        return money;
     }
 
     public static int getManualNumberCount() {
-        System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
+        System.out.println("\n수동으로 구매할 로또 수를 입력해 주세요.");
         int money = sc.nextInt();
         sc.nextLine();
 
@@ -28,7 +26,7 @@ public class InputView {
     public static List<List<Integer>> getManualLottoes(int purchasedMaunalCount) {
         List<List<Integer>> manualLottoes = new ArrayList<>();
 
-        System.out.println("수동으로 구매할 번호를 입력해 주세요.");
+        System.out.println("\n수동으로 구매할 번호를 입력해 주세요.");
 
         for (int count = 0; count < purchasedMaunalCount; count++) {
             manualLottoes.add(getLottoLine());
