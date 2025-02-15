@@ -1,18 +1,16 @@
 package view;
 
-import domain.LottoRank;
-
 import java.util.List;
-import java.util.Map;
 
 public class ResultView {
     public static void printUserLotto(List<List<Integer>> AllLotto, int manualLottoCount) {
-        System.out.println("\n" + AllLotto.size() + "개를 구매했습니다.");
+        int allLottoCount = AllLotto.size();
+
+        System.out.printf("\n수동으로 %d장, 자동으로 %d개를 구매했습니다.\n", allLottoCount - manualLottoCount, allLottoCount);
         for (List<Integer> lotto : AllLotto) {
             System.out.println(lotto);
         }
     }
-
 
     public static void printStatistics(List<List<Integer>> rankResults, Double prizeMoneyRate) {
         System.out.println("\n당첨 통계\n---------");

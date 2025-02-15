@@ -9,20 +9,27 @@ public class LottoGame {
     private final List<Lotto> purchasedLottoes = new ArrayList<>();
     private final Map<LottoRank, Integer> rankResults = new HashMap<>();
 
-    private final LottoStrategy strategy;
-
-    public LottoGame(LottoStrategy strategy) {
-        this.strategy = strategy;
+    public LottoGame() {
         initializeRankResults();
     }
 
-    public void buyManualLotto(List<Lotto> lottoes) {
+    public void buyManualLottoes(List<Lotto> lottoes) {
         purchasedLottoes.addAll(lottoes);
     }
 
-    public void buyAutoLotto() {
+    public void buyAutoLottoes(int buyCount) {
         LottoStrategy strategy = new AutoGenerate();
-        purchasedLottoes.add(strategy.generateLotto(null));
+        List<Lotto> lottoes = new ArrayList<>();
+
+        for (int count = 0; count < buyCount; count++) {
+            lottoes.add(strategy.generateLotto(null));
+        }
+
+        purchasedLottoes.addAll(lottoes);
+    }
+
+    public int getGameTotalCount(int money) {
+        return money / LottoConstants.LOTTO_PRICE;
     }
 
     public Map<LottoRank, Integer> calculateResults(Lotto winningLotto, int bonusNumber) {
@@ -54,10 +61,6 @@ public class LottoGame {
         for (LottoRank rank : ranks) {
             rankResults.put(rank, 0);
         }
-    }
-
-    public void addLotto(Lotto lotto) {
-        purchasedLottoes.add(lotto);
     }
 
     public List<Lotto> getPurchasedLottoes() {
