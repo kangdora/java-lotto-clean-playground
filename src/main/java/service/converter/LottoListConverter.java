@@ -1,6 +1,6 @@
 package service.converter;
 
-import domain.Lotto;
+import domain.model.Lotto;
 
 import java.util.List;
 

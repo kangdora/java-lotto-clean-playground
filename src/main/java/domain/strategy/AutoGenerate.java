@@ -1,7 +1,9 @@
 package domain.strategy;
 
-import domain.Lotto;
+import domain.model.Lotto;
 import domain.LottoConstants;
+import domain.model.LottoNumber;
+import domain.util.LottoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,10 @@ public class AutoGenerate implements LottoStrategy{
 
         Collections.shuffle(all_lottery);
 
-        return new Lotto(all_lottery.subList(0, LottoConstants.LOTTO_LENGTH));
+        List<LottoNumber> lottoNumbers = LottoUtils.convertToLottoNumbers(
+                all_lottery.subList(0, LottoConstants.LOTTO_LENGTH)
+        );
+
+        return new Lotto(lottoNumbers);
     }
 }

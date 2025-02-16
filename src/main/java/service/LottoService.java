@@ -1,6 +1,6 @@
 package service;
 
-import domain.Lotto;
+import domain.model.Lotto;
 import domain.LottoGame;
 import service.converter.LottoListConverter;
 import service.converter.LottoResultConverter;

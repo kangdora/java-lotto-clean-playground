@@ -1,5 +1,6 @@
 package domain;
 
+import domain.model.Lotto;
 import domain.strategy.AutoGenerate;
 import domain.strategy.LottoStrategy;
 
